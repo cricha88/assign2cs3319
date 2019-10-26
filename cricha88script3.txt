@@ -1,0 +1,43 @@
+-- Christine's Script 3
+
+-- Start using database if not already
+USE cricha88assign2db;
+
+-- Query 1
+SELECT LastName FROM patient;
+
+-- Query 2
+SELECT DISTINCT LastName FROM patient;
+
+-- Query 3
+SELECT * FROM doctor ORDER BY LastName;
+
+-- Query 4
+SELECT HospitalName, HospitalCode FROM hospital WHERE NumberOfBeds > 1500;
+
+-- Query 5
+SELECT FirstName, LastName FROM doctor INNER JOIN hospital ON doctor.HospitalCode = hospital.HospitalCode WHERE HospitalName = "St. Joseph";
+
+-- Query 6
+SELECT FirstName, LastName FROM patient WHERE LastName LIKE "G%";
+
+-- Query 7
+SELECT DISTINCT patient.FirstName, patient.LastName FROM treats INNER JOIN patient ON treats.OHIPNumber = patient.OHIPNumber INNER JOIN doctor ON treats.LicenseNumber = doctor.LicenseNumber WHERE doctor.LastName = "Clooney";
+
+-- Query 8
+SELECT HospitalName, City, LastName FROM hospital INNER JOIN doctor ON hospital.LicenseNumber = doctor.LicenseNumber; 
+
+-- Query 9
+SELECT SUM(NumberOfBeds) AS "Total Number of Beds" FROM hospital;
+
+-- Query 10
+SELECT patient.FirstName AS "Patient's First Name", doctor.FirstName AS "Doctor's First Name" FROM treats INNER JOIN patient ON treats.OHIPNumber = patient.OHIPNumber INNER JOIN hospital ON treats.LicenseNumber = hospital.LicenseNumber INNER JOIN doctor ON hospital.LicenseNumber = doctor.LicenseNumber;
+
+-- Query 11
+SELECT FirstName, LastName FROM doctor INNER JOIN hospital ON doctor.HospitalCode = hospital.HospitalCode WHERE hospital.HospitalName = "Victoria" AND doctor.Specialty = "Surgeon";
+
+-- Query 12
+SELECT FirstName FROM doctor WHERE LicenseNumber NOT IN (SELECT LicenseNumber FROM treats);
+
+-- Query 13
+SELECT FirstName, LastName, COUNT(*) AS "Number of Patients" FROM doctor INNER JOIN treats ON doctor.LicenseNumber = treats.LicenseNumber GROUP BY treats.LicenseNumber HAVING COUNT(*) > 1;

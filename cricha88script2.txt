@@ -1,0 +1,63 @@
+-- Christine's Script 2
+
+-- Start using database if not already
+USE cricha88assign2db;
+
+-- Insert data from local file loaddatafall2019.txt
+LOAD DATA LOCAL INFILE "~/assignment2/loaddatafall2019.txt" INTO TABLE patient FIELDS TERMINATED BY ',';
+
+-- Insert myself as a patient with made up OHIPNumber
+SELECT * FROM patient;
+INSERT INTO patient VALUES ("123456789", "Christine", "Richards");
+SELECT * FROM patient;
+
+-- Insert values into doctor table with null HospitalCode as hospital has not been created yet
+SELECT * FROM doctor;
+INSERT INTO doctor VALUES ("RD34", "Bernie", "Kavorikian", "Urologist", "1980-09-09", NULL);
+INSERT INTO doctor VALUES ("GD56", "Joey", "Shabado", "Podiatrist", "1960-06-24", NULL); 
+INSERT INTO doctor VALUES ("HT45", "Ross", "Clooney", "Surgeon", "1987-06-20", NULL);
+INSERT INTO doctor VALUES ("YT67", "Ben", "Spock", "Pediatrician", "1955-02-20", NULL);
+INSERT INTO doctor VALUES ("JK78", "Mandy", "Webster", "Surgeon", "1990-08-08", NULL);
+INSERT INTO doctor VALUES ("SE66", "Colleen", "Aziz", "Surgeon", "1989-08-24", NULL);
+INSERT INTO doctor VALUES ("MG25", "Meredith", "Grey", "Surgeon", "2005-03-27", NULL);
+SELECT * FROM doctor;
+
+-- Insert values into the hospital table
+SELECT * FROM hospital;
+INSERT INTO hospital VALUES ("BBC", "St. Joseph", "London", "ON", 1000, "1999-09-10", "GD56");
+INSERT INTO hospital VALUES ("ABC", "Victoria", "London", "ON", 1600, "1994-12-05", "SE66");
+INSERT INTO hospital VALUES ("DDE", "Victoria", "Victoria", "BC", 1200, "1997-12-07", "YT67");
+SELECT * FROM hospital;
+
+-- Insert values in the treats table 
+SELECT * FROM treats;
+INSERT INTO treats VALUES ("GD56", "110112113");
+INSERT INTO treats VALUES ("HT45", "444555666");
+INSERT INTO treats VALUES ("JK78", "444555666");
+INSERT INTO treats VALUES ("SE66", "111222333");
+INSERT INTO treats VALUES ("YT67", "111222333");
+INSERT INTO treats VALUES ("JK78", "111222333");
+INSERT INTO treats VALUES ("GD56", "333444555");
+INSERT INTO treats VALUES ("YT67", "667766777");
+INSERT INTO treats VALUES ("JK78", "667766777");
+INSERT INTO treats VALUES ("GD56", "667766777");
+INSERT INTO treats VALUES ("YT67", "111222111");
+INSERT INTO treats VALUES ("MG25", "123456789");
+SELECT * FROM treats;
+
+-- Update the doctor table to include the correct HospitalCode that the doctor works at
+SELECT * FROM doctor;
+UPDATE doctor SET HospitalCode = "BBC" WHERE LicenseNumber = "RD34" OR LicenseNumber = "GD56" OR LicenseNumber = "JK78";
+UPDATE doctor SET HospitalCode = "ABC" WHERE LicenseNumber = "SE66" OR LicenseNumber = "MG25";
+UPDATE doctor SET HospitalCode = "DDE" WHERE LicenseNumber = "HT45" OR LicenseNumber = "YT67"; 
+SELECT * FROM doctor;
+
+-- Update the patient table to change patient 111222111 to have the LastName Brown
+SELECT * FROM patient;
+UPDATE patient SET LastName = "Brown" WHERE OHIPNumber = "111222111";
+SELECT * FROM patient;
+
+-- Update the treats table for every patient who had Spock treating them to have Clooney instead
+SELECT * FROM treats;
+UPDATE treats SET treats.LicenseNumber = (SELECT doctor.LicenseNumber FROM doctor WHERE doctor.LastName = "Clooney") WHERE LicenseNumber IN (SELECT doctor.LicenseNumber FROM doctor WHERE doctor.LastName = "Spock");
+SELECT * FROM treats;

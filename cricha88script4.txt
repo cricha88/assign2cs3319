@@ -1,0 +1,32 @@
+-- Christine's Script 4
+
+-- Start using database if not already
+USE cricha88assign2db;
+
+-- DELETE doctors with license date before "1965-01-01"
+DELETE FROM doctor WHERE LicenseDate < "1965-01-01";
+-- The delete caused an error because all the doctors with LicenseDate before 1965-01-01 happen to be head doctors
+-- and head doctors cannot be deleted as they are referenced in the hospital table
+
+-- CREATE VIEW of patients with head doctors that became head after "1995-12-31"
+CREATE VIEW newHeadsPatients AS SELECT patient.FirstName, patient.LastName, doctor.LastName AS "Doctor" FROM treats INNER JOIN patient ON treats.OHIPNumber = patient.OHIPNumber INNER JOIN hospital ON treats.LicenseNumber = hospital.LicenseNumber INNER JOIN doctor ON hospital.LicenseNumber = doctor.LicenseNumber WHERE hospital.StartDate > "1995-12-31";
+
+-- SELECT everything from the view just created
+SELECT * FROM newHeadsPatients;
+
+-- SELECT everything in doctor and treats table
+SELECT * FROM doctor;
+SELECT * FROM treats;
+
+-- DELETE doctor with last name Clooney
+DELETE FROM doctor WHERE LastName = "Clooney";
+
+-- SELECT everything in doctor and treats again
+SELECT * FROM doctor;
+SELECT * FROM treats;
+
+-- DELETE all surgeons
+DELETE FROM doctor WHERE Specialty = "Surgeon";
+-- The delete caused an error because one of the surgeons is the head doctor of a hospital
+-- and head doctors cannot be deleted as they are referenced in the hospital table
+
