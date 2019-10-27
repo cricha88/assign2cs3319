@@ -4,7 +4,8 @@
 USE cricha88assign2db;
 
 -- Insert data from local file loaddatafall2019.txt
-LOAD DATA LOCAL INFILE "~/assignment2/loaddatafall2019.txt" INTO TABLE patient FIELDS TERMINATED BY ',';
+LOAD DATA LOCAL INFILE "/home/centos/assignment2/loaddatafall2019.txt" INTO TABLE patient FIELDS TERMINATED BY ',';
+
 
 -- Insert myself as a patient with made up OHIPNumber
 SELECT * FROM patient;

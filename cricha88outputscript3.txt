@@ -1,0 +1,178 @@
+--------------
+SELECT LastName FROM patient
+--------------
+
++----------+
+| LastName |
++----------+
+| Gellar   |
+| Brown    |
+| Green    |
+| Richards |
+| Gellar   |
+| Gellar   |
+| Bing     |
++----------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT DISTINCT LastName FROM patient
+--------------
+
++----------+
+| LastName |
++----------+
+| Gellar   |
+| Brown    |
+| Green    |
+| Richards |
+| Bing     |
++----------+
+5 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM doctor ORDER BY LastName
+--------------
+
++---------------+-----------+------------+--------------+-------------+--------------+
+| LicenseNumber | FirstName | LastName   | Specialty    | LicenseDate | HospitalCode |
++---------------+-----------+------------+--------------+-------------+--------------+
+| SE66          | Colleen   | Aziz       | Surgeon      | 1989-08-24  | ABC          |
+| HT45          | Ross      | Clooney    | Surgeon      | 1987-06-20  | DDE          |
+| MG25          | Meredith  | Grey       | Surgeon      | 2005-03-27  | ABC          |
+| RD34          | Bernie    | Kavorikian | Urologist    | 1980-09-09  | BBC          |
+| GD56          | Joey      | Shabado    | Podiatrist   | 1960-06-24  | BBC          |
+| YT67          | Ben       | Spock      | Pediatrician | 1955-02-20  | DDE          |
+| JK78          | Mandy     | Webster    | Surgeon      | 1990-08-08  | BBC          |
++---------------+-----------+------------+--------------+-------------+--------------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT HospitalName, HospitalCode FROM hospital WHERE NumberOfBeds > 1500
+--------------
+
++--------------+--------------+
+| HospitalName | HospitalCode |
++--------------+--------------+
+| Victoria     | ABC          |
++--------------+--------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT FirstName, LastName FROM doctor INNER JOIN hospital ON doctor.HospitalCode = hospital.HospitalCode WHERE HospitalName = "St. Joseph"
+--------------
+
++-----------+------------+
+| FirstName | LastName   |
++-----------+------------+
+| Joey      | Shabado    |
+| Mandy     | Webster    |
+| Bernie    | Kavorikian |
++-----------+------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT FirstName, LastName FROM patient WHERE LastName LIKE "G%"
+--------------
+
++-----------+----------+
+| FirstName | LastName |
++-----------+----------+
+| Bill      | Gellar   |
+| Jon       | Green    |
+| Colleen   | Gellar   |
+| Sean      | Gellar   |
++-----------+----------+
+4 rows in set (0.00 sec)
+
+--------------
+SELECT DISTINCT patient.FirstName, patient.LastName FROM treats INNER JOIN patient ON treats.OHIPNumber = patient.OHIPNumber INNER JOIN doctor ON treats.LicenseNumber = doctor.LicenseNumber WHERE doctor.LastName = "Clooney"
+--------------
+
++-----------+----------+
+| FirstName | LastName |
++-----------+----------+
+| Suzi      | Brown    |
+| Jon       | Green    |
+| Sean      | Gellar   |
+| Scotty    | Bing     |
++-----------+----------+
+4 rows in set (0.00 sec)
+
+--------------
+SELECT HospitalName, City, LastName FROM hospital INNER JOIN doctor ON hospital.LicenseNumber = doctor.LicenseNumber
+--------------
+
++--------------+----------+----------+
+| HospitalName | City     | LastName |
++--------------+----------+----------+
+| Victoria     | London   | Aziz     |
+| St. Joseph   | London   | Shabado  |
+| Victoria     | Victoria | Spock    |
++--------------+----------+----------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT SUM(NumberOfBeds) AS "Total Number of Beds" FROM hospital
+--------------
+
++----------------------+
+| Total Number of Beds |
++----------------------+
+|                 3800 |
++----------------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT patient.FirstName AS "Patient's First Name", doctor.FirstName AS "Doctor's First Name" FROM treats INNER JOIN patient ON treats.OHIPNumber = patient.OHIPNumber INNER JOIN hospital ON treats.LicenseNumber = hospital.LicenseNumber INNER JOIN doctor ON hospital.LicenseNumber = doctor.LicenseNumber
+--------------
+
++----------------------+---------------------+
+| Patient's First Name | Doctor's First Name |
++----------------------+---------------------+
+| Bill                 | Joey                |
+| Colleen              | Joey                |
+| Scotty               | Joey                |
+| Jon                  | Colleen             |
++----------------------+---------------------+
+4 rows in set (0.00 sec)
+
+--------------
+SELECT FirstName, LastName FROM doctor INNER JOIN hospital ON doctor.HospitalCode = hospital.HospitalCode WHERE hospital.HospitalName = "Victoria" AND doctor.Specialty = "Surgeon"
+--------------
+
++-----------+----------+
+| FirstName | LastName |
++-----------+----------+
+| Ross      | Clooney  |
+| Meredith  | Grey     |
+| Colleen   | Aziz     |
++-----------+----------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT FirstName FROM doctor WHERE LicenseNumber NOT IN (SELECT LicenseNumber FROM treats)
+--------------
+
++-----------+
+| FirstName |
++-----------+
+| Bernie    |
+| Ben       |
++-----------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT FirstName, LastName, COUNT(*) AS "Number of Patients" FROM doctor INNER JOIN treats ON doctor.LicenseNumber = treats.LicenseNumber GROUP BY treats.LicenseNumber HAVING COUNT(*) > 1
+--------------
+
++-----------+----------+--------------------+
+| FirstName | LastName | Number of Patients |
++-----------+----------+--------------------+
+| Joey      | Shabado  |                  3 |
+| Ross      | Clooney  |                  4 |
+| Mandy     | Webster  |                  3 |
++-----------+----------+--------------------+
+3 rows in set (0.00 sec)
+
+Bye
