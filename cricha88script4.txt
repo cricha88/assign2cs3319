@@ -11,7 +11,7 @@ DELETE FROM doctor WHERE LicenseDate < "1965-01-01";
 SELECT * FROM doctor;
 
 -- CREATE VIEW of patients with head doctors that became head after "1995-12-31"
-CREATE VIEW newHeadsPatients AS SELECT patient.FirstName, patient.LastName, doctor.LastName AS "Doctor" FROM treats INNER JOIN patient ON treats.OHIPNumber = patient.OHIPNumber INNER JOIN hospital ON treats.LicenseNumber = hospital.LicenseNumber INNER JOIN doctor ON hospital.LicenseNumber = doctor.LicenseNumber WHERE hospital.StartDate > "1995-12-31";
+CREATE VIEW newHeadsPatients AS SELECT patient.FirstName, patient.LastName, doctor.LastName AS "Doctor", hospital.HospitalName FROM treats INNER JOIN patient ON treats.OHIPNumber = patient.OHIPNumber INNER JOIN hospital ON treats.LicenseNumber = hospital.LicenseNumber INNER JOIN doctor ON hospital.LicenseNumber = doctor.LicenseNumber WHERE hospital.StartDate > "1995-12-31";
 
 -- SELECT everything from the view just created
 SELECT * FROM newHeadsPatients;
