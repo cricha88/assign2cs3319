@@ -13,7 +13,7 @@ SELECT LastName FROM patient
 | Gellar   |
 | Bing     |
 +----------+
-7 rows in set (0.00 sec)
+7 rows in set (0.01 sec)
 
 --------------
 SELECT DISTINCT LastName FROM patient
@@ -163,16 +163,16 @@ SELECT FirstName FROM doctor WHERE LicenseNumber NOT IN (SELECT LicenseNumber FR
 2 rows in set (0.00 sec)
 
 --------------
-SELECT FirstName, LastName, COUNT(*) AS "Number of Patients" FROM doctor INNER JOIN treats ON doctor.LicenseNumber = treats.LicenseNumber GROUP BY treats.LicenseNumber HAVING COUNT(*) > 1
+SELECT FirstName, LastName FROM doctor INNER JOIN treats ON doctor.LicenseNumber = treats.LicenseNumber GROUP BY treats.LicenseNumber HAVING COUNT(*) > 1
 --------------
 
-+-----------+----------+--------------------+
-| FirstName | LastName | Number of Patients |
-+-----------+----------+--------------------+
-| Joey      | Shabado  |                  3 |
-| Ross      | Clooney  |                  4 |
-| Mandy     | Webster  |                  3 |
-+-----------+----------+--------------------+
++-----------+----------+
+| FirstName | LastName |
++-----------+----------+
+| Joey      | Shabado  |
+| Ross      | Clooney  |
+| Mandy     | Webster  |
++-----------+----------+
 3 rows in set (0.00 sec)
 
 Bye

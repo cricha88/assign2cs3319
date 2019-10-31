@@ -17,7 +17,7 @@ SHOW DATABASES
 DROP DATABASE IF EXISTS cricha88assign2db
 --------------
 
-Query OK, 5 rows affected (0.15 sec)
+Query OK, 5 rows affected (0.10 sec)
 
 --------------
 CREATE DATABASE cricha88assign2db
@@ -59,7 +59,7 @@ Query OK, 0 rows affected (0.00 sec)
 SHOW TABLES
 --------------
 
-Empty set (0.01 sec)
+Empty set (0.00 sec)
 
 --------------
 CREATE TABLE hospital (HospitalCode CHAR(3), HospitalName VARCHAR(20), City VARCHAR(20), Province CHAR(2), NumberOfBeds INT, StartDate DATE, PRIMARY KEY (HospitalCode))
@@ -71,13 +71,13 @@ Query OK, 0 rows affected (0.05 sec)
 CREATE TABLE patient (OHIPNumber CHAR(9), FirstName VARCHAR(20), LastName VARCHAR(20), PRIMARY KEY (OHIPNumber))
 --------------
 
-Query OK, 0 rows affected (0.22 sec)
+Query OK, 0 rows affected (0.17 sec)
 
 --------------
 CREATE TABLE doctor (LicenseNumber CHAR(4), FirstName VARCHAR(20), LastName VARCHAR(20), Specialty VARCHAR(30), LicenseDate DATE, HospitalCode CHAR(3), PRIMARY KEY (LicenseNumber), FOREIGN KEY (HospitalCode) REFERENCES hospital(HospitalCode))
 --------------
 
-Query OK, 0 rows affected (0.09 sec)
+Query OK, 0 rows affected (0.27 sec)
 
 --------------
 CREATE TABLE treats (LicenseNumber CHAR(4), OHIPNumber CHAR(9), PRIMARY KEY (LicenseNumber, OHIPNumber), FOREIGN KEY (LicenseNumber) REFERENCES doctor(LicenseNumber) ON DELETE CASCADE, FOREIGN KEY (OHIPNumber) REFERENCES patient(OHIPNumber))
@@ -89,7 +89,7 @@ Query OK, 0 rows affected (0.06 sec)
 ALTER TABLE hospital ADD LicenseNumber CHAR(4)
 --------------
 
-Query OK, 0 rows affected (0.14 sec)
+Query OK, 0 rows affected (0.18 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
 --------------

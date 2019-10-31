@@ -1,26 +1,60 @@
-ERROR 1451 (23000) at line 7: Cannot delete or update a parent row: a foreign key constraint fails (`cricha88assign2db`.`hospital`, CONSTRAINT `hospital_ibfk_1` FOREIGN KEY (`LicenseNumber`) REFERENCES `doctor` (`LicenseNumber`))
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+-----------+------------+--------------+-------------+--------------+
+| LicenseNumber | FirstName | LastName   | Specialty    | LicenseDate | HospitalCode |
++---------------+-----------+------------+--------------+-------------+--------------+
+| GD56          | Joey      | Shabado    | Podiatrist   | 1960-06-24  | BBC          |
+| HT45          | Ross      | Clooney    | Surgeon      | 1987-06-20  | DDE          |
+| JK78          | Mandy     | Webster    | Surgeon      | 1990-08-08  | BBC          |
+| MG25          | Meredith  | Grey       | Surgeon      | 2005-03-27  | ABC          |
+| RD34          | Bernie    | Kavorikian | Urologist    | 1980-09-09  | BBC          |
+| SE66          | Colleen   | Aziz       | Surgeon      | 1989-08-24  | ABC          |
+| YT67          | Ben       | Spock      | Pediatrician | 1955-02-20  | DDE          |
++---------------+-----------+------------+--------------+-------------+--------------+
+7 rows in set (0.00 sec)
+
+ERROR 1451 (23000) at line 8: Cannot delete or update a parent row: a foreign key constraint fails (`cricha88assign2db`.`hospital`, CONSTRAINT `hospital_ibfk_1` FOREIGN KEY (`LicenseNumber`) REFERENCES `doctor` (`LicenseNumber`))
 --------------
 DELETE FROM doctor WHERE LicenseDate < "1965-01-01"
 --------------
 
 --------------
-CREATE VIEW newHeadsPatients AS SELECT patient.FirstName, patient.LastName, doctor.LastName AS "Doctor" FROM treats INNER JOIN patient ON treats.OHIPNumber = patient.OHIPNumber INNER JOIN hospital ON treats.LicenseNumber = hospital.LicenseNumber INNER JOIN doctor ON hospital.LicenseNumber = doctor.LicenseNumber WHERE hospital.StartDate > "1995-12-31"
+SELECT * FROM doctor
 --------------
 
-Query OK, 0 rows affected (0.01 sec)
++---------------+-----------+------------+--------------+-------------+--------------+
+| LicenseNumber | FirstName | LastName   | Specialty    | LicenseDate | HospitalCode |
++---------------+-----------+------------+--------------+-------------+--------------+
+| GD56          | Joey      | Shabado    | Podiatrist   | 1960-06-24  | BBC          |
+| HT45          | Ross      | Clooney    | Surgeon      | 1987-06-20  | DDE          |
+| JK78          | Mandy     | Webster    | Surgeon      | 1990-08-08  | BBC          |
+| MG25          | Meredith  | Grey       | Surgeon      | 2005-03-27  | ABC          |
+| RD34          | Bernie    | Kavorikian | Urologist    | 1980-09-09  | BBC          |
+| SE66          | Colleen   | Aziz       | Surgeon      | 1989-08-24  | ABC          |
+| YT67          | Ben       | Spock      | Pediatrician | 1955-02-20  | DDE          |
++---------------+-----------+------------+--------------+-------------+--------------+
+7 rows in set (0.00 sec)
+
+--------------
+CREATE VIEW newHeadsPatients AS SELECT patient.FirstName, patient.LastName, doctor.LastName AS "Doctor", hospital.HospitalName FROM treats INNER JOIN patient ON treats.OHIPNumber = patient.OHIPNumber INNER JOIN hospital ON treats.LicenseNumber = hospital.LicenseNumber INNER JOIN doctor ON hospital.LicenseNumber = doctor.LicenseNumber WHERE hospital.StartDate > "1995-12-31"
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
 
 --------------
 SELECT * FROM newHeadsPatients
 --------------
 
-+-----------+----------+---------+
-| FirstName | LastName | Doctor  |
-+-----------+----------+---------+
-| Bill      | Gellar   | Shabado |
-| Colleen   | Gellar   | Shabado |
-| Scotty    | Bing     | Shabado |
-+-----------+----------+---------+
-3 rows in set (0.00 sec)
++-----------+----------+---------+--------------+
+| FirstName | LastName | Doctor  | HospitalName |
++-----------+----------+---------+--------------+
+| Bill      | Gellar   | Shabado | St. Joseph   |
+| Colleen   | Gellar   | Shabado | St. Joseph   |
+| Scotty    | Bing     | Shabado | St. Joseph   |
++-----------+----------+---------+--------------+
+3 rows in set (0.01 sec)
 
 --------------
 SELECT * FROM doctor
@@ -65,7 +99,7 @@ SELECT * FROM treats
 DELETE FROM doctor WHERE LastName = "Clooney"
 --------------
 
-Query OK, 1 row affected (0.01 sec)
+Query OK, 1 row affected (0.00 sec)
 
 --------------
 SELECT * FROM doctor
@@ -101,9 +135,41 @@ SELECT * FROM treats
 +---------------+------------+
 8 rows in set (0.00 sec)
 
-ERROR 1451 (23000) at line 29: Cannot delete or update a parent row: a foreign key constraint fails (`cricha88assign2db`.`hospital`, CONSTRAINT `hospital_ibfk_1` FOREIGN KEY (`LicenseNumber`) REFERENCES `doctor` (`LicenseNumber`))
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+-----------+------------+--------------+-------------+--------------+
+| LicenseNumber | FirstName | LastName   | Specialty    | LicenseDate | HospitalCode |
++---------------+-----------+------------+--------------+-------------+--------------+
+| GD56          | Joey      | Shabado    | Podiatrist   | 1960-06-24  | BBC          |
+| JK78          | Mandy     | Webster    | Surgeon      | 1990-08-08  | BBC          |
+| MG25          | Meredith  | Grey       | Surgeon      | 2005-03-27  | ABC          |
+| RD34          | Bernie    | Kavorikian | Urologist    | 1980-09-09  | BBC          |
+| SE66          | Colleen   | Aziz       | Surgeon      | 1989-08-24  | ABC          |
+| YT67          | Ben       | Spock      | Pediatrician | 1955-02-20  | DDE          |
++---------------+-----------+------------+--------------+-------------+--------------+
+6 rows in set (0.00 sec)
+
+ERROR 1451 (23000) at line 32: Cannot delete or update a parent row: a foreign key constraint fails (`cricha88assign2db`.`hospital`, CONSTRAINT `hospital_ibfk_1` FOREIGN KEY (`LicenseNumber`) REFERENCES `doctor` (`LicenseNumber`))
 --------------
 DELETE FROM doctor WHERE Specialty = "Surgeon"
 --------------
+
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+-----------+------------+--------------+-------------+--------------+
+| LicenseNumber | FirstName | LastName   | Specialty    | LicenseDate | HospitalCode |
++---------------+-----------+------------+--------------+-------------+--------------+
+| GD56          | Joey      | Shabado    | Podiatrist   | 1960-06-24  | BBC          |
+| JK78          | Mandy     | Webster    | Surgeon      | 1990-08-08  | BBC          |
+| MG25          | Meredith  | Grey       | Surgeon      | 2005-03-27  | ABC          |
+| RD34          | Bernie    | Kavorikian | Urologist    | 1980-09-09  | BBC          |
+| SE66          | Colleen   | Aziz       | Surgeon      | 1989-08-24  | ABC          |
+| YT67          | Ben       | Spock      | Pediatrician | 1955-02-20  | DDE          |
++---------------+-----------+------------+--------------+-------------+--------------+
+6 rows in set (0.00 sec)
 
 Bye
